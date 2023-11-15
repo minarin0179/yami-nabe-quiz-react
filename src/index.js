@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import QuizPage from './components/QuizPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router basename={process.env.PUBLIC_URL}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/eat" element={<QuizPage />} />
+      </Routes>
+    </Router >
   </React.StrictMode>
 );
 
