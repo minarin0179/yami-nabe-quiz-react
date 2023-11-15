@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/yami-nabe-quiz-react/static/css/main.f855e6bc.css",
-    "main.js": "/yami-nabe-quiz-react/static/js/main.62d56d41.js",
+    "main.css": "/yami-nabe-quiz-react/static/css/main.e6c13ad2.css",
+    "main.js": "/yami-nabe-quiz-react/static/js/main.074131d2.js",
     "static/js/787.9675ced8.chunk.js": "/yami-nabe-quiz-react/static/js/787.9675ced8.chunk.js",
     "index.html": "/yami-nabe-quiz-react/index.html",
-    "main.f855e6bc.css.map": "/yami-nabe-quiz-react/static/css/main.f855e6bc.css.map",
-    "main.62d56d41.js.map": "/yami-nabe-quiz-react/static/js/main.62d56d41.js.map",
+    "main.e6c13ad2.css.map": "/yami-nabe-quiz-react/static/css/main.e6c13ad2.css.map",
+    "main.074131d2.js.map": "/yami-nabe-quiz-react/static/js/main.074131d2.js.map",
     "787.9675ced8.chunk.js.map": "/yami-nabe-quiz-react/static/js/787.9675ced8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.62d56d41.js"
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.074131d2.js"
   ]
 }
