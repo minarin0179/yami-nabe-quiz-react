@@ -9,6 +9,7 @@ const Quiz = () => {
     const [isAnswered, setIsAnswered] = useState(false);
     const [result, setResult] = useState(0);
     const [resetCount, setResetCount] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
     const url = 'https://yami-nabe-quiz.com/api';
 
 
@@ -30,6 +31,7 @@ const Quiz = () => {
         setResetCount(resetCount + 1);
         setUserAnswer(Array(question.ingredients.length).fill(""));
         setIsCorrect(Array(question.ingredients.length).fill(null));
+        setIsLoaded(false);
     }
 
     useEffect(() => {
@@ -40,8 +42,8 @@ const Quiz = () => {
         })
             .then(response => response.json())
             .then(resultData => {
-                console.log(resultData);
                 setQuestionData(resultData)
+                setIsLoaded(true);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [resetCount]); // 空の依存配列を渡すことで、コンポーネントがマウントされたときにのみ実行される
@@ -101,7 +103,7 @@ const Quiz = () => {
                 ))}
             </Grid>
 
-            {!isAnswered && (
+            {!isAnswered && isLoaded && (
                 <Button
                     variant="contained"
                     color="primary"
@@ -131,12 +133,12 @@ const Quiz = () => {
 
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         size="large"
                         onClick={restart}
                         style={{ marginTop: '20px' }}
                     >
-                        Restart
+                        おかわり
                     </Button>
                 </div>
             )}
