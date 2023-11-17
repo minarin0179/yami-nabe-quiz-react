@@ -10,7 +10,7 @@ import image from "../images/food_yaminabe.png";
 
 const HomePage = () => (
     <Container maxWidth="md" sx={{ textAlign: "center", mt: 4 }}>
-        <Typography variant="h1" component="div" sx={{ mb: 4 }}>
+        <Typography variant="h2" component="div" sx={{ mb: 4 }}>
             闇鍋クイズ
         </Typography>
 
