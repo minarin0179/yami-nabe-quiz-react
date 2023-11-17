@@ -25,16 +25,16 @@ const HomePage = () => (
                 </Link>
             </Grid>
             <Grid item xs={12} md={4}>
-                <Link to="/put" style={{ textDecoration: "none" }}>
-                    <Button fullWidth size="large" variant="contained" color="warning">
-                        材料を入れる
+                <Link to="/eat" style={{ textDecoration: "none" }}>
+                    <Button fullWidth size="large" variant="contained" color="secondary">
+                        鍋を食べる
                     </Button>
                 </Link>
             </Grid>
             <Grid item xs={12} md={4}>
-                <Link to="/eat" style={{ textDecoration: "none" }}>
-                    <Button fullWidth size="large" variant="contained" color="secondary">
-                        鍋を食べる
+                <Link to="/put" style={{ textDecoration: "none" }}>
+                    <Button fullWidth size="large" variant="contained" color="warning">
+                        材料を入れる
                     </Button>
                 </Link>
             </Grid>
