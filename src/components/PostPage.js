@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Button, Container, TextField, Typography, Link as MuiLink } from '@mui/material';
 import { Link } from 'react-router-dom';
+
 
 const PostPage = () => {
   // Stateを使用して入力値を管理
@@ -10,6 +11,11 @@ const PostPage = () => {
 
   // APIリクエストを送信する関数
   const handleButtonClick = async () => {
+
+    if (!question || !answer) {
+      alert('空欄の項目があるよ');
+      return;
+    }
     try {
       // ここにAPIエンドポイントを追加
       const url = 'https://yami-nabe-quiz.com/api';
@@ -22,25 +28,39 @@ const PostPage = () => {
       };
 
       // POSTリクエストを送信
-      const response = await axios.post(url, requestData);
+      await axios.post(url, requestData);
 
-      // レスポンスの処理
-      console.log('API Response:', response.data);
+      alert('具材が投入されたよ');
+      setQuestion('');
+      setAnswer('');
     } catch (error) {
       // エラーの処理
+      alert('具材を送るのに失敗したよ\n時間を空けてから試してみてね');
       console.error('Error:', error);
     }
   };
 
   return (
     <Container maxWidth="70%"> {/* 変更: maxWidthを指定 */}
-      <Link to="/">＜トップに戻る</Link>
+
+      <MuiLink
+        component={Link}
+        to="/"
+        color="primary"
+        underline="none"
+        style={{ fontSize: 18, fontWeight: 'bold', textDecoration: 'none' }}
+        sx={{ '&:hover': { color: '#0044cc' } }}
+      >
+        ＜トップに戻る
+      </MuiLink>
+
       <Typography variant="h4">具材(クイズ)を入力してください</Typography>
       <div>
         <TextField
           fullWidth
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
+          required
           label="問題文"
           variant="outlined"
         />
@@ -51,6 +71,7 @@ const PostPage = () => {
         fullWidth
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
+        required
         label="答え"
         variant="outlined"
       />
