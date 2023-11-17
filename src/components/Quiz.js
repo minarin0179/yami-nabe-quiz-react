@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Button, List, ListItem, ListItemText, Box, Grid, Paper, Card } from '@mui/material';
+import { Typography, Button, List, ListItemText, Grid, Paper, Card } from '@mui/material';
 import AnswerBox from "./AnswerBox";
 
-const Quiz = () => {
+const Quiz = ({ level }) => {
     const [question, setQuestion] = useState({ question: "鍋を煮込んでいます…", ingredients: [] });
     const [userAnswer, setUserAnswer] = useState([]);
     const [isCorrect, setIsCorrect] = useState([]);
@@ -35,9 +35,8 @@ const Quiz = () => {
     }
 
     useEffect(() => {
-        const size = 4;
         // 外部APIからデータを取得
-        fetch(`${url}?size=${size}`, {
+        fetch(`${url}?size=${level}`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -46,7 +45,7 @@ const Quiz = () => {
                 setIsLoaded(true);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [resetCount]); // 空の依存配列を渡すことで、コンポーネントがマウントされたときにのみ実行される
+    }, [resetCount, level]); // 空の依存配列を渡すことで、コンポーネントがマウントされたときにのみ実行される
 
 
     const handleTextInputChange = (index, value) => {
@@ -90,7 +89,7 @@ const Quiz = () => {
                 {question.question}
             </Typography>
 
-            <Grid container spacing={2}>
+            {isLoaded && <Grid container spacing={2}>
                 {userAnswer.map((value, index) => (
                     <Grid item key={index}>
                         <AnswerBox
@@ -101,7 +100,7 @@ const Quiz = () => {
                         />
                     </Grid>
                 ))}
-            </Grid>
+            </Grid>}
 
             {!isAnswered && isLoaded && (
                 <Button
