@@ -1,88 +1,93 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Container, TextField, Typography, Link as MuiLink } from '@mui/material';
+import { Button, Container, TextField, Typography, Link as MuiLink, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-
 const PostPage = () => {
-  // Stateを使用して入力値を管理
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
-  // APIリクエストを送信する関数
   const handleButtonClick = async () => {
-
     if (!question || !answer) {
-      alert('空欄の項目があるよ');
+      alert('空欄の項目があります');
       return;
     }
     try {
-      // ここにAPIエンドポイントを追加
       const url = 'https://yami-nabe-quiz.com/api';
-
-
-      // POSTリクエストのデータを作成
       const requestData = {
         question,
         answer,
       };
 
-      // POSTリクエストを送信
       await axios.post(url, requestData);
 
-      alert('具材が投入されたよ');
+      alert('具材が投入されました');
       setQuestion('');
       setAnswer('');
     } catch (error) {
-      // エラーの処理
-      alert('具材を送るのに失敗したよ\n時間を空けてから試してみてね');
+      alert('具材を送るのに失敗しました\n時間を空けてから試してみてください');
       console.error('Error:', error);
     }
   };
 
   return (
-    <Container maxWidth="70%"> {/* 変更: maxWidthを指定 */}
-
-      <MuiLink
-        component={Link}
-        to="/"
-        color="primary"
-        underline="none"
-        style={{ fontSize: 18, fontWeight: 'bold', textDecoration: 'none' }}
-        sx={{ '&:hover': { color: '#0044cc' } }}
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+        }}
       >
-        ＜トップに戻る
-      </MuiLink>
+        <MuiLink
+          component={Link}
+          to="/"
+          color="primary"
+          underline="none"
+          sx={{ fontSize: 18, fontWeight: 'bold', textDecoration: 'none', '&:hover': { color: '#0044cc' } }}
+        >
+          ＜トップに戻る
+        </MuiLink>
 
-      <Typography variant="h4">具材(クイズ)を入力してください</Typography>
-      <div>
-        <TextField
-          fullWidth
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          required
-          label="問題文"
-          variant="outlined"
-        />
-      </div>
+        <Typography component="h1" variant="h4" sx={{ marginTop: 2 }}>
+          具材(クイズ)を入力してください
+        </Typography>
 
+        <Box component="form" noValidate sx={{ mt: 3 }}>
+          <TextField
+            fullWidth
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            required
+            label="問題文"
+            variant="outlined"
+            margin="normal"
+          />
 
-      <TextField
-        fullWidth
-        value={answer}
-        onChange={(e) => setAnswer(e.target.value)}
-        required
-        label="答え"
-        variant="outlined"
-      />
+          <TextField
+            fullWidth
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            required
+            label="答え"
+            variant="outlined"
+            margin="normal"
+          />
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleButtonClick}
-      >
-        投入
-      </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleButtonClick}
+            sx={{ mt: 3 }}
+          >
+            投入
+          </Button>
+        </Box>
+      </Box>
     </Container>
   );
 };
