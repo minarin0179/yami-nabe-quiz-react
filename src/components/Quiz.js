@@ -1,14 +1,51 @@
-import React, { useState } from 'react';
-import { Typography, Button, List, ListItem, ListItemText, Box, Grid } from '@mui/material';
-import questions from "../data/questions";
+import React, { useEffect, useState } from 'react';
+import { Typography, Button, List, ListItem, ListItemText, Box, Grid, Paper, Card } from '@mui/material';
 import AnswerBox from "./AnswerBox";
 
 const Quiz = () => {
-    const [question, setQuestion] = useState(questions[0]);
-    const [userAnswer, setUserAnswer] = useState(Array(question.ingredients.length).fill(""));
-    const [isCorrect, setIsCorrect] = useState(Array(question.ingredients.length).fill(null));
+    const [question, setQuestion] = useState({ question: "鍋を煮込んでいます…", ingredients: [] });
+    const [userAnswer, setUserAnswer] = useState([]);
+    const [isCorrect, setIsCorrect] = useState([]);
     const [isAnswered, setIsAnswered] = useState(false);
     const [result, setResult] = useState(0);
+    const [resetCount, setResetCount] = useState(0);
+    const url = 'https://yami-nabe-quiz.com/api';
+
+
+    const setQuestionData = (res) => {
+        setQuestion(res);
+        setUserAnswer(Array(res.ingredients.length).fill(""));
+        setIsCorrect(Array(res.ingredients.length).fill(null));
+    };
+
+    const nowLoading = () => {
+        setQuestion({ question: "鍋を煮込んでいます…", ingredients: [] });
+        setUserAnswer([]);
+        setIsCorrect([]);
+    }
+
+    const restart = () => {
+        setIsAnswered(false);
+        nowLoading();
+        setResetCount(resetCount + 1);
+        setUserAnswer(Array(question.ingredients.length).fill(""));
+        setIsCorrect(Array(question.ingredients.length).fill(null));
+    }
+
+    useEffect(() => {
+        const size = 4;
+        // 外部APIからデータを取得
+        fetch(`${url}?size=${size}`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(resultData => {
+                console.log(resultData);
+                setQuestionData(resultData)
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [resetCount]); // 空の依存配列を渡すことで、コンポーネントがマウントされたときにのみ実行される
+
 
     const handleTextInputChange = (index, value) => {
         setUserAnswer((prevInputs) => {
@@ -46,16 +83,15 @@ const Quiz = () => {
     };
 
     return (
-        <Box>
-            <Typography variant="h5" style={{ width: "70%", border: "solid 1px", padding: "10px", margin: "10px" }}>
+        <Paper elevation={3} style={{ padding: '20px', maxWidth: '800px', margin: '20px auto' }}>
+            <Typography variant="h5" gutterBottom>
                 {question.question}
             </Typography>
 
-            <Grid container spacing={1} style={{ padding: "10px" }}>
+            <Grid container spacing={2}>
                 {userAnswer.map((value, index) => (
-                    <Grid item>
+                    <Grid item key={index}>
                         <AnswerBox
-                            key={index}
                             index={index}
                             value={value}
                             isCorrect={isCorrect[index]}
@@ -66,33 +102,45 @@ const Quiz = () => {
             </Grid>
 
             {!isAnswered && (
-                <Button size='large' variant="contained" onClick={handleButtonClick} style={{ marginTop: "10px" }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={handleButtonClick}
+                    style={{ marginTop: '20px' }}
+                >
                     回答
                 </Button>
             )}
 
             {isAnswered && (
                 <div>
-                    <Typography variant="body1">正解数: {result}</Typography>
-                    <Typography variant="body1">正解は</Typography>
+                    <Typography variant="body1" gutterBottom>
+                        正解数: {result}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        正解は
+                    </Typography>
                     <List>
-                        {question.ingredients.map(({ answer }, index) => (
-                            <ListItem key={index}>
-                                <ListItemText primary={answer} />
-                            </ListItem>
+                        {question.ingredients.map(({ answer, question }, index) => (
+                            <Card key={index} style={{ margin: '10px', padding: '10px', borderRadius: '10px' }}>
+                                <ListItemText primary={`${answer}\n ⇒ ${question}`} />
+                            </Card>
                         ))}
                     </List>
-                    <Typography variant="body1">元の問題文</Typography>
-                    <List>
-                        {question.ingredients.map(({ question }, index) => (
-                            <ListItem key={index}>
-                                <ListItemText primary={question} />
-                            </ListItem>
-                        ))}
-                    </List>
+
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        onClick={restart}
+                        style={{ marginTop: '20px' }}
+                    >
+                        Restart
+                    </Button>
                 </div>
             )}
-        </Box>
+        </Paper>
     );
 };
 

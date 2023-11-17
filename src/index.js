@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import QuizPage from './components/QuizPage';
+import PostPage from './components/PostPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/eat" element={<QuizPage />} />
+        <Route path="/put" element={<PostPage />} />
       </Routes>
     </Router >
   </React.StrictMode>
